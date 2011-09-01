@@ -10,7 +10,7 @@ WHISKEY := $(shell bash -c 'PATH=$(PATH) type -p whiskey')
 default: test
 
 test:
-	NODE_PATH=`pwd`/lib/ ${WHISKEY} --sequential --real-time --tests "${TESTS}"
+	NODE_PATH=`pwd`/lib/ ${WHISKEY} --scope-leaks --sequential --real-time --tests "${TESTS}"
 
 tap:
 	NODE_PATH=`pwd`/lib/ ${WHISKEY} --test-reporter tap --sequential --real-time --tests "${TESTS}"
