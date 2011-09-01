@@ -17,7 +17,7 @@
 
 var et = require('elementtree');
 
-exports['test_error_type'] = function(test, assert) {
+exports['test_simplest'] = function(test, assert) {
   /* Ported from <https://github.com/lxml/lxml/blob/master/src/lxml/tests/test_elementtree.py> */
   var Element = et.Element
   var root = Element('root');
@@ -28,5 +28,15 @@ exports['test_error_type'] = function(test, assert) {
   assert.equal('one', root.getItem(0).tag)
   assert.equal('two', root.getItem(1).tag)
   assert.equal('three', root.getItem(2).tag)
+  test.finish();
+};
+
+
+exports['test_attribute_values'] = function(test, assert) {
+  var XML = et.XML;
+  var root = XML('<doc alpha="Alpha" beta="Beta" gamma="Gamma"/>');
+  assert.equal('Alpha', root.attrib['alpha']);
+  assert.equal('Beta', root.attrib['beta']);
+  assert.equal('Gamma', root.attrib['gamma']);
   test.finish();
 };
