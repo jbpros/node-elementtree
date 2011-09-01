@@ -47,10 +47,10 @@ exports['test_findall'] = function(test, assert) {
   var root = XML('<a><b><c/></b><b/><c><b/></c></a>');
   assert.equal(root.findall("c").length, 1);
   assert.equal(root.findall(".//c").length, 2);
-  /*assert.equal(root.findall(".//b").length, 3);
-  assert.equal(root.findall(".//b")[0].length, 1);
-  assert.equal(root.findall(".//b")[1].length, 0);
-  assert.equal(root.findall(".//b")[2].length, 0);*/
+  assert.equal(root.findall(".//b").length, 3);
+  assert.equal(root.findall(".//b")[0]._children.length, 1);
+  assert.equal(root.findall(".//b")[1]._children.length, 0);
+  assert.equal(root.findall(".//b")[2]._children.length, 0);
 
   test.finish();
 };
