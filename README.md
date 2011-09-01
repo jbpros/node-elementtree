@@ -10,7 +10,7 @@ Incomplete. Basics work. Major work ongoing.
 License
 ====================
 
-node-cassandra-client is distributed under the [Apache license](http://www.apache.org/licenses/LICENSE-2.0.html).
+node-elementtree is distributed under the [Apache license](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 Installation
 ====================
