@@ -40,3 +40,18 @@ exports['test_attribute_values'] = function(test, assert) {
   assert.equal('Gamma', root.attrib['gamma']);
   test.finish();
 };
+
+
+exports['test_findall'] = function(test, assert) {
+  var XML = et.XML;
+  var root = XML('<a><b><c/></b><b/><c><b/></c></a>');
+
+  assert.equal(root.findall("c").length, 1);
+  /*assert.equal(root.findall(".//c").length, 2);
+  assert.equal(root.findall(".//b").length, 3);
+  assert.equal(root.findall(".//b")[0].length, 1);
+  assert.equal(root.findall(".//b")[1].length, 0);
+  assert.equal(root.findall(".//b")[2].length, 0);*/
+
+  test.finish();
+};
