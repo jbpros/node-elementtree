@@ -16,6 +16,8 @@
  */
 
 var et = require('elementtree');
+var XML = et.XML;
+var ElementTree = et.ElementTree;
 
 exports['test_simplest'] = function(test, assert) {
   /* Ported from <https://github.com/lxml/lxml/blob/master/src/lxml/tests/test_elementtree.py> */
@@ -45,12 +47,20 @@ exports['test_attribute_values'] = function(test, assert) {
 exports['test_findall'] = function(test, assert) {
   var XML = et.XML;
   var root = XML('<a><b><c/></b><b/><c><b/></c></a>');
+
   assert.equal(root.findall("c").length, 1);
   assert.equal(root.findall(".//c").length, 2);
   assert.equal(root.findall(".//b").length, 3);
   assert.equal(root.findall(".//b")[0]._children.length, 1);
   assert.equal(root.findall(".//b")[1]._children.length, 0);
   assert.equal(root.findall(".//b")[2]._children.length, 0);
+  assert.deepEqual(root.findall('.//b')[0], root.getchildren()[0]);
 
+  test.finish();
+};
+
+exports['test_elementtree_find_qname'] = function(test, assert) {
+  var tree = new et.ElementTree(XML('<a><b><c/></b><b/><c><b/></c></a>'));
+  assert.deepEqual(tree.find(new et.QName('c')), tree.getroot()._children[2]);
   test.finish();
 };
