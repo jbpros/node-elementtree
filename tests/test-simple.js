@@ -18,6 +18,8 @@
 var et = require('elementtree');
 var XML = et.XML;
 var ElementTree = et.ElementTree;
+var Element = et.Element;
+var SubElement = et.SubElement;
 
 exports['test_simplest'] = function(test, assert) {
   /* Ported from <https://github.com/lxml/lxml/blob/master/src/lxml/tests/test_elementtree.py> */
@@ -62,5 +64,45 @@ exports['test_findall'] = function(test, assert) {
 exports['test_elementtree_find_qname'] = function(test, assert) {
   var tree = new et.ElementTree(XML('<a><b><c/></b><b/><c><b/></c></a>'));
   assert.deepEqual(tree.find(new et.QName('c')), tree.getroot()._children[2]);
+  test.finish();
+};
+
+exports['test_attrib_ns_clear'] = function(test, assert) {
+  var attribNS = '{http://foo/bar}x';
+
+  var par = Element('par');
+  par.set(attribNS, 'a');
+  var child = SubElement(par, 'child');
+  child.set(attribNS, 'b');
+
+  assert.equal('a', par.get(attribNS));
+  assert.equal('b', child.get(attribNS));
+
+  par.clear();
+  assert.equal(null, par.get(attribNS));
+  assert.equal('b', child.get(attribNS));
+  test.finish();
+};
+
+exports['test_create_tree_and_parse_simple'] = function(test, assert) {
+  var i = 0;
+  var e = new Element('bar', {});
+  var expected = "<?xml version='1.0' encoding='utf-8'?>\n" +
+    '<bar><blah a="11" /><blah a="12" /><gag a="13" b="abc">ponies</gag></bar>';
+
+  SubElement(e, "blah", {a: '11'});
+  SubElement(e, "blah", {a: '12'});
+  var se = et.SubElement(e, "gag", {a: '13', b: 'abc'});
+  se.text = 'ponies';
+
+  se.itertext(function(text) {
+    assert.equal(text, 'ponies');
+    i++;
+  });
+
+  assert.equal(i, 1);
+  var etree = new ElementTree(e);
+  var xml = etree.write();
+  assert.equal(xml, expected);
   test.finish();
 };
