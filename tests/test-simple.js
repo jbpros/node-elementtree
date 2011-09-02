@@ -23,15 +23,15 @@ var SubElement = et.SubElement;
 
 exports['test_simplest'] = function(test, assert) {
   /* Ported from <https://github.com/lxml/lxml/blob/master/src/lxml/tests/test_elementtree.py> */
-  var Element = et.Element
+  var Element = et.Element;
   var root = Element('root');
   root.append(Element('one'));
   root.append(Element('two'));
   root.append(Element('three'));
-  assert.equal(3, root.len())
-  assert.equal('one', root.getItem(0).tag)
-  assert.equal('two', root.getItem(1).tag)
-  assert.equal('three', root.getItem(2).tag)
+  assert.equal(3, root.len());
+  assert.equal('one', root.getItem(0).tag);
+  assert.equal('two', root.getItem(1).tag);
+  assert.equal('three', root.getItem(2).tag);
   test.finish();
 };
 
