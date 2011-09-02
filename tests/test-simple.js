@@ -15,11 +15,18 @@
  *
  */
 
+var fs = require('fs');
+var path = require('path');
+
 var et = require('elementtree');
 var XML = et.XML;
 var ElementTree = et.ElementTree;
 var Element = et.Element;
 var SubElement = et.SubElement;
+
+function readFile(name) {
+  return fs.readFileSync(path.join(__dirname, '/data/', name), 'utf8');
+}
 
 exports['test_simplest'] = function(test, assert) {
   /* Ported from <https://github.com/lxml/lxml/blob/master/src/lxml/tests/test_elementtree.py> */
@@ -104,5 +111,22 @@ exports['test_create_tree_and_parse_simple'] = function(test, assert) {
   var etree = new ElementTree(e);
   var xml = etree.write();
   assert.equal(xml, expected);
+  test.finish();
+};
+
+exports['test_parse_and_find_2'] = function(test, assert) {
+  var data = readFile('xml1.xml');
+  var etree = et.parse(data);
+
+  assert.equal(etree.findall('./object').length, 2);
+  assert.equal(etree.findall('[@name]').length, 1);
+  assert.equal(etree.findall('[@name="test_container_1"]').length, 1);
+  assert.equal(etree.findall('[@name=\'test_container_1\']').length, 1);
+  assert.equal(etree.findall('./object')[0].findtext('name'), 'test_object_1');
+  assert.equal(etree.findtext('./object/name'), 'test_object_1');
+  assert.equal(etree.findall('.//bytes').length, 2);
+  assert.equal(etree.findall('*/bytes').length, 2);
+  assert.equal(etree.findall('*/foobar').length, 0);
+
   test.finish();
 };
