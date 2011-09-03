@@ -18,6 +18,7 @@
 var fs = require('fs');
 var path = require('path');
 
+var sprintf = require('./../lib/sprintf').sprintf;
 var et = require('elementtree');
 var XML = et.XML;
 var ElementTree = et.ElementTree;
@@ -148,5 +149,30 @@ exports['test_syntax_errors'] = function(test, assert) {
   });
 
   assert.equal(errCount, expressions.length);
+  test.finish();
+};
+
+exports['test_register_namespace'] = function(test, assert){
+  var prefix = 'TESTPREFIX';
+  var namespace = 'http://seriously.unknown/namespace/URI';
+  var errCount = 0;
+
+  var etree = Element(sprintf('{%s}test', namespace));
+  assert.equal(et.tostring(etree, { 'xml_declaration': false}),
+               sprintf('<ns0:test xmlns:ns0="%s" />', namespace));
+
+  et.register_namespace(prefix, namespace);
+  var etree = Element(sprintf('{%s}test', namespace));
+  assert.equal(et.tostring(etree, { 'xml_declaration': false}),
+               sprintf('<%s:test xmlns:%s="%s" />', prefix, prefix, namespace));
+
+  try {
+    et.register_namespace('ns25', namespace);
+  }
+  catch (err) {
+    errCount++;
+  }
+
+  assert.equal(errCount, 1, 'Reserved prefix used, but exception was not thrown');
   test.finish();
 };
