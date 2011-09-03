@@ -23,6 +23,7 @@ var XML = et.XML;
 var ElementTree = et.ElementTree;
 var Element = et.Element;
 var SubElement = et.SubElement;
+var SyntaxError = require('errors').SyntaxError;
 
 function readFile(name) {
   return fs.readFileSync(path.join(__dirname, '/data/', name), 'utf8');
@@ -128,5 +129,24 @@ exports['test_parse_and_find_2'] = function(test, assert) {
   assert.equal(etree.findall('*/bytes').length, 2);
   assert.equal(etree.findall('*/foobar').length, 0);
 
+  test.finish();
+};
+
+exports['test_syntax_errors'] = function(test, assert) {
+  var expressions = [ './/@bar', '[@bar', '[@foo=bar]', '[@', '/bar' ];
+  var errCount = 0;
+  var data = readFile('xml1.xml');
+  var etree = et.parse(data);
+
+  expressions.forEach(function(expression) {
+    try {
+      etree.findall(expression);
+    }
+    catch (err) {
+      errCount++;
+    }
+  });
+
+  assert.equal(errCount, expressions.length);
   test.finish();
 };
