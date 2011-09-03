@@ -184,5 +184,6 @@ exports['test_tostring'] = function(test, assert) {
   c.text = 'ponies';
 
   assert.equal(et.tostring(a, { 'xml_declaration': false }), '<a><b /><c>ponies</c></a>');
+  assert.equal(et.tostring(c, { 'xml_declaration': false }), '<c>ponies</c>');
   test.finish();
 };
