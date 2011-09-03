@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git://github.com/racker/node-elementtree.git"
   },
-  "main": "lib/et.js",
+  "main": "lib/elementtree.js",
   "directories": {
     "lib": "lib"
   },
