@@ -176,3 +176,13 @@ exports['test_register_namespace'] = function(test, assert){
   assert.equal(errCount, 1, 'Reserved prefix used, but exception was not thrown');
   test.finish();
 };
+
+exports['test_tostring'] = function(test, assert) {
+  var a = Element('a');
+  var b = SubElement(a, 'b');
+  var c = SubElement(a, 'c');
+  c.text = 'ponies';
+
+  assert.equal(et.tostring(a, { 'xml_declaration': false }), '<a><b /><c>ponies</c></a>');
+  test.finish();
+};
