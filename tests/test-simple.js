@@ -70,6 +70,15 @@ exports['test_findall'] = function(test, assert) {
   test.finish();
 };
 
+exports['test_find'] = function(test, assert) {
+  var a = Element('a');
+  var b = SubElement(a, 'b');
+  var c = SubElement(a, 'c');
+
+  assert.deepEqual(a.find('./b/..'), a);
+  test.finish();
+};
+
 exports['test_elementtree_find_qname'] = function(test, assert) {
   var tree = new et.ElementTree(XML('<a><b><c/></b><b/><c><b/></c></a>'));
   assert.deepEqual(tree.find(new et.QName('c')), tree.getroot()._children[2]);
