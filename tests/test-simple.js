@@ -108,8 +108,8 @@ exports['test_create_tree_and_parse_simple'] = function(test, assert) {
   var expected = "<?xml version='1.0' encoding='utf-8'?>\n" +
     '<bar><blah a="11" /><blah a="12" /><gag a="13" b="abc">ponies</gag></bar>';
 
-  SubElement(e, "blah", {a: '11'});
-  SubElement(e, "blah", {a: '12'});
+  SubElement(e, "blah", {a: 11});
+  SubElement(e, "blah", {a: 12});
   var se = et.SubElement(e, "gag", {a: '13', b: 'abc'});
   se.text = 'ponies';
 
@@ -190,9 +190,9 @@ exports['test_tostring'] = function(test, assert) {
   var a = Element('a');
   var b = SubElement(a, 'b');
   var c = SubElement(a, 'c');
-  c.text = 'ponies';
+  c.text = 543;
 
-  assert.equal(et.tostring(a, { 'xml_declaration': false }), '<a><b /><c>ponies</c></a>');
-  assert.equal(et.tostring(c, { 'xml_declaration': false }), '<c>ponies</c>');
+  assert.equal(et.tostring(a, { 'xml_declaration': false }), '<a><b /><c>543</c></a>');
+  assert.equal(et.tostring(c, { 'xml_declaration': false }), '<c>543</c>');
   test.finish();
 };
