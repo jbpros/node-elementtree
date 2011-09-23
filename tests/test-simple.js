@@ -202,6 +202,6 @@ exports['test_escape'] = function(test, assert) {
   var b = SubElement(a, 'b');
   b.text = '&&&&<>"\n\r';
 
-  assert.equal(et.tostring(a, { 'xml_declaration': false }), '<a><b>&amp;&amp;&amp;&amp;&lt;&gt;&quot;&#xA;&#xD;</b></a>');
+  assert.equal(et.tostring(a, { 'xml_declaration': false }), '<a><b>&amp;&amp;&amp;&amp;&lt;&gt;\"&#xA;&#xD;</b></a>');
   test.finish();
 };
